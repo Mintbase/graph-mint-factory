@@ -1,0 +1,36 @@
+type Mintbase @entity {
+  id: ID!
+  count: BigInt!
+  stores: [Store]!
+}
+
+type Store @entity {
+  id: ID!
+  owner: Bytes!
+  name: String!
+  symbol: String!
+  totalSupply: BigInt!
+  burned: Boolean!
+  factory: Mintbase! @derivedFrom(field: "stores")
+  things: [Thing!]! @derivedFrom(field: "resolveStore")
+}
+
+type Thing @entity {
+  id: ID!
+  minter: Bytes!
+  factory: Store! @derivedFrom(field: "things")
+  burned: Boolean!
+  forSale: Boolean!
+  metaId: String!
+  resolveStore: Store!
+  tokens: [Token!]! @derivedFrom(field: "resolvedThing")
+}
+
+type Token @entity {
+  id: ID!
+  tokenId: String!
+  metaId: String!
+  price: String!
+  state: String!
+  resolvedThing: Thing!
+}

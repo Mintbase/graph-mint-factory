@@ -1,0 +1,57 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: rinkeby
+    source:
+      address: "0x4a4f42F89D9C849035A461D904F7BC7bDa6d77de"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - StoreLaunch
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: StoreLaunch(indexed address,string,string)
+          handler: handleStoreLaunch
+      file: ./src/mapping.ts
+templates:
+  - name: StoreContract
+    kind: ethereum/contract
+    network: rinkeby
+    source:
+      abi: Thing
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/thingMaps.ts
+      entities:
+        - Store
+        - Thing
+      abis:
+        - name: Thing
+          file: ./abis/Thing.json
+      eventHandlers:
+        - event: ErrorOut(string,uint256)
+          handler: handleErrorOut
+        - event: Destroy()
+          handler: handleDestroy
+        - event: BatchTransfered(string,address[],uint256[])
+          handler: handleBatchTransfered
+        - event: Minted(uint256,string)
+          handler: handleMinted
+        - event: BatchBurned(string,uint256[])
+          handler: handleBatchBurned
+        - event: BatchForSale(uint256[],string)
+          handler: handleBatchForSale
+        - event: Bought(uint256,string,uint256)
+          handler: handleBought
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
