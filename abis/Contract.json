@@ -1,6 +1,20 @@
 [
   {
     "constant": true,
+    "inputs": [],
+    "name": "mintbase",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "name": "",
@@ -17,6 +31,12 @@
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
     "anonymous": false,
@@ -54,10 +74,6 @@
       {
         "name": "uri",
         "type": "string"
-      },
-      {
-        "name": "fee",
-        "type": "address"
       }
     ],
     "name": "launchStore",
