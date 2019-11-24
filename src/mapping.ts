@@ -1,6 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import { Contract, StoreLaunch } from "../generated/Contract/Contract"
-import { Mintbase, Store, Thing } from "../generated/schema"
+import { Mintbase, Store, User } from "../generated/schema"
 import { StoreContract } from "../generated/templates"
 
 export function handleStoreLaunch(event: StoreLaunch): void {
@@ -21,11 +21,19 @@ export function handleStoreLaunch(event: StoreLaunch): void {
   store.name = event.params.name.toString()
   store.symbol = event.params.symbol.toString()
   store.totalSupply = BigInt.fromI32(0)
-
+  store.resolveUser = event.transaction.from.toHex();
 
   factory.count = factory.count + BigInt.fromI32(1)
   factory.stores.push(event.params.store.toHex())
   store.burned = false;
+
+
+  let user = User.load(event.transaction.from.toHex())
+  if (!user) {
+    user = new User(event.transaction.from.toHex())
+  }
+
+  user.save()
 
 
   StoreContract.create(event.params.store)

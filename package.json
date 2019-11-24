@@ -4,10 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:dev": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ nategeier/mint-factory",
-    "deploy:prod": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ nategeier/mint-factory",
+    "prep:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prep:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ nategeier/mint-factory",
+    "deploy:mainnet": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ nategeier/mintbase",
     "create-local": "graph create --node http://localhost:8020/ nategeier/mint-factory",
     "remove-local": "graph remove --node http://localhost:8020/ nategeier/mint-factory",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 nategeier/mint-factory"
@@ -15,6 +15,7 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "0.16.0",
     "@graphprotocol/graph-ts": "0.16.0",
+    "graphql": "^14.5.8",
     "mustache": "^3.1.0"
   }
 }

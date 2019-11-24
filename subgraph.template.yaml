@@ -8,6 +8,7 @@ dataSources:
     source:
       address: '{{address}}'
       abi: Contract
+      startBlock: {{startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -24,7 +25,7 @@ dataSources:
 templates:
   - name: StoreContract
     kind: ethereum/contract
-    network: rinkeby
+    network: {{network}}
     source:
       abi: Thing
     mapping:

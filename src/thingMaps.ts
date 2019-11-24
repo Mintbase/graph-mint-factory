@@ -15,7 +15,7 @@ import {
   Approval,
   ApprovalForAll
 } from "../generated/templates/StoreContract/Thing"
-import { Store, Thing, Token } from "../generated/schema"
+import { Store, Thing, Token, User } from "../generated/schema"
 import { StoreContract } from "../generated/templates"
 
 
@@ -80,13 +80,10 @@ export function handleErrorOut(event: ErrorOut): void {
   // - contract.tokensOfOwner(...)
 }
 
-export function handleBatchTransfered(event: BatchTransfered): void {
-
-}
+export function handleBatchTransfered(event: BatchTransfered): void { }
 
 export function handleDestroy(event: Destroy): void {
   let address = event.address.toHex()
-
 
   let store = Store.load(address)
   if (store == null) {
@@ -102,8 +99,6 @@ export function handleMinted(event: Minted): void {
   if (thing == null) {
     thing = new Thing(event.params.metaId)
   }
-
-
 
   let contract = Contract.bind(event.address)
   let address = event.address.toHex()
@@ -121,8 +116,6 @@ export function handleMinted(event: Minted): void {
   thing.burned = false;
   thing.forSale = true;
 
-
-
   let tokenId = event.params.id.toString()
 
   let item = contract.items(event.params.id);
@@ -138,6 +131,10 @@ export function handleMinted(event: Minted): void {
   token.metaId = item.value2.toString()
   token.tokenId = tokenId
   token.resolvedThing = event.params.metaId
+  token.store = event.address.toHex()
+  token.resolveOwner = event.transaction.from.toHex()
+  token.burned = false
+
   token.save()
 
   thing.resolveStore = address
@@ -163,6 +160,25 @@ export function handleBatchBurned(event: BatchBurned): void {
   if (thing == null) {
     return
   }
+
+
+  let ids = event.params.ids;
+
+
+  for (var i = 0; i < ids.length; i++) {
+    let items = contract.items(ids[i])
+    let address = event.address.toHex()
+    let uniqueId = address.concat('-').concat(ids[i].toString())
+
+    let token = Token.load(uniqueId)
+    if (token == null) {
+      token = new Token(uniqueId)
+    }
+    token.burned = true
+    token.save()
+
+  }
+
   thing.burned = true;
   thing.save();
   store.save()
@@ -172,6 +188,24 @@ export function handleBatchForSale(event: BatchForSale): void {
   let thing = Thing.load(event.params.metaId)
   if (thing == null) {
     return
+  }
+
+  let ids = event.params.ids;
+  let contract = Contract.bind(event.address)
+
+
+  for (var i = 0; i < ids.length; i++) {
+    let items = contract.items(ids[i])
+    let address = event.address.toHex()
+    let uniqueId = address.concat('-').concat(ids[i].toString())
+
+    let token = Token.load(uniqueId)
+    if (token == null) {
+      token = new Token(uniqueId)
+    }
+    token.state = '1'
+    token.save()
+
   }
   thing.forSale = true;
   thing.save();
@@ -206,6 +240,10 @@ export function handleTransfer(event: Transfer): void {
     return
   }
   token.state = '3'
+
+
+  token.resolveOwner = event.params.to.toHex()
+
   token.save()
 
 }

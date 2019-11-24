@@ -13,6 +13,7 @@ type Store @entity {
   burned: Boolean!
   factory: Mintbase! @derivedFrom(field: "stores")
   things: [Thing!]! @derivedFrom(field: "resolveStore")
+  resolveUser: User!
 }
 
 type Thing @entity {
@@ -31,6 +32,15 @@ type Token @entity {
   tokenId: String!
   metaId: String!
   price: String!
+  burned: Boolean!
   state: String!
   resolvedThing: Thing!
+  store: Store!
+  resolveOwner: User!
+}
+
+type User @entity {
+  id: ID!
+  stores: [Store!]! @derivedFrom(field: "resolveUser")
+  tokens: [Token!]! @derivedFrom(field: "resolveOwner")
 }
