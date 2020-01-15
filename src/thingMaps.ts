@@ -237,7 +237,7 @@ export function handleTransfer(event: Transfer): void {
 
   let token = Token.load(uniqueId)
   if (token == null) {
-    return
+    token = new Token(uniqueId)
   }
   token.state = '3'
 
