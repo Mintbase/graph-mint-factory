@@ -5,7 +5,7 @@ Mintbase enables users to mint and sell NFTs
 * **Data Driver:** All of Mintbase's interfase is driven off the graph using Apollo Subscription hooks
 
 
-## Installation [Rinkeby](https://thegraph.com/explorer/subgraph/nategeier/mint-factory)
+## Installation
 
 ```
 npm i
@@ -19,7 +19,7 @@ npm run deploy:rinkeby
 ```
 
 
-## Deploy [Rinkeby](https://thegraph.com/explorer/subgraph/nategeier/mintbase)
+## Deploy [Mainnet](https://thegraph.com/explorer/subgraph/nategeier/mintbase)
 ```
 npm run codegen
 npm run prep:mainnet
