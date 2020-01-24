@@ -1,7 +1,11 @@
 type Mintbase @entity {
   id: ID!
-  count: BigInt!
+  storeCount: BigInt!
   stores: [Store]!
+  tokenCount: BigInt!
+  transferCount: BigInt!
+  boughtCount: BigInt!
+  valueCount:BigDecimal!
 }
 
 type Store @entity {
@@ -9,8 +13,8 @@ type Store @entity {
   owner: Bytes!
   name: String!
   symbol: String!
-  timestamp: String!
   totalSupply: BigInt!
+  timestamp: String!
   burned: Boolean!
   factory: Mintbase! @derivedFrom(field: "stores")
   things: [Thing!]! @derivedFrom(field: "resolveStore")
@@ -20,7 +24,6 @@ type Store @entity {
 type Thing @entity {
   id: ID!
   minter: Bytes!
-  timestamp: String!
   factory: Store! @derivedFrom(field: "things")
   burned: Boolean!
   forSale: Boolean!

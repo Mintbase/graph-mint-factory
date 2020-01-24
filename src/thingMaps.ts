@@ -1,4 +1,4 @@
-import { BigInt, Address } from "@graphprotocol/graph-ts"
+import { BigInt, Address, BigDecimal } from "@graphprotocol/graph-ts"
 import {
   Thing as Contract,
   ErrorOut,
@@ -15,7 +15,7 @@ import {
   Approval,
   ApprovalForAll
 } from "../generated/templates/StoreContract/Thing"
-import { Store, Thing, Token, User } from "../generated/schema"
+import { Mintbase, Store, Thing, Token, User } from "../generated/schema"
 import { StoreContract } from "../generated/templates"
 
 
@@ -89,8 +89,11 @@ export function handleDestroy(event: Destroy): void {
   if (store == null) {
     store = new Store(address)
   }
+
   store.burned = true;
+
   store.save()
+
 }
 
 export function handleMinted(event: Minted): void {
@@ -99,6 +102,14 @@ export function handleMinted(event: Minted): void {
   if (thing == null) {
     thing = new Thing(event.params.metaId)
   }
+
+  let mintbase = Mintbase.load('1')
+  if (mintbase == null) {
+    mintbase = new Mintbase('1')
+  }
+  mintbase.tokenCount = mintbase.tokenCount.plus(BigInt.fromI32(1))
+  mintbase.save()
+
 
   let contract = Contract.bind(event.address)
   let address = event.address.toHex()
@@ -115,7 +126,7 @@ export function handleMinted(event: Minted): void {
   thing.metaId = event.params.metaId;
   thing.burned = false;
   thing.forSale = true;
-  thing.timestamp = event.block.timestamp.toString();
+
 
   let tokenId = event.params.id.toString()
 
@@ -136,13 +147,13 @@ export function handleMinted(event: Minted): void {
   token.resolveOwner = event.transaction.from.toHex()
   token.burned = false
 
+
   token.save()
 
   thing.resolveStore = address
 
   store.save()
   thing.save()
-
 }
 
 export function handleBatchBurned(event: BatchBurned): void {
@@ -216,6 +227,21 @@ export function handleBatchForSale(event: BatchForSale): void {
 export function handleBought(event: Bought): void {
   let tokenId = event.params.tokenId.toString()
 
+  let mintbase = Mintbase.load('1')
+  if (mintbase == null) {
+    mintbase = new Mintbase('1')
+  }
+  mintbase.boughtCount = mintbase.boughtCount.plus(BigInt.fromI32(1))
+
+
+  let value = BigDecimal.fromString(event.params.value.toString())
+  let eth = BigDecimal.fromString('1000000000000000000')
+  let amount = value.div(eth)
+
+  mintbase.valueCount = mintbase.valueCount.plus(amount)
+
+  mintbase.save()
+
   let address = event.address.toHex()
   let uniqueId = address.concat('-').concat(tokenId)
   let token = Token.load(uniqueId)
@@ -233,22 +259,27 @@ export function handleMinterAdded(event: MinterAdded): void { }
 export function handleMinterRemoved(event: MinterRemoved): void { }
 
 export function handleTransfer(event: Transfer): void {
+
+  let mintbase = Mintbase.load('1')
+  if (mintbase == null) {
+    mintbase = new Mintbase('1')
+  }
+  mintbase.transferCount = mintbase.transferCount.plus(BigInt.fromI32(1))
+  mintbase.save()
+
   let address = event.address.toHex()
   let uniqueId = address.concat('-').concat(event.params.tokenId.toString())
 
   let token = Token.load(uniqueId)
   if (token == null) {
-
-    // Contract is probably destroyed so do nothing
-  } else {
-    token.state = '3'
-
-
-    token.resolveOwner = event.params.to.toHex()
-
-    token.save()
+    return
   }
+  token.state = '3'
 
+
+  token.resolveOwner = event.params.to.toHex()
+
+  token.save()
 
 }
 
