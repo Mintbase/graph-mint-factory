@@ -1,0 +1,12 @@
+# IPFS
+
+## Why not store on IPFS today?
+
+There is a  difference between decentralized and distributed systems. We have had distributed technology around for a long time, think of Napster. Blockchains are not built to store data as this would get very expensive or simply not fit with [block gas limits ](https://hudsonjameson.com/2017-06-27-accounts-transactions-gas-ethereum/)so we have the next best thing and these are distributed, immutable systems like IPFS where your files are stored on not just one, but multiple computers ran by ideally  normal people and not major corporations. 
+
+IPFS is great and at Mintbase we are using this now [to construct Ethereum event data](https://thegraph.com/explorer/subgraph/nategeier/mintbase) \(user x, bought y, reduces z availability\). Basically no secret logic exists on our backend. When the user mints, transfers, or buys, the interaction and sale of the asset is organized by [theGraph](https://thegraph.com/explorer/subgraph/nategeier/mintbase). This also opens up a path for other companies to create their own reporting tools without needing to trust us or a store created on Mintbase. We know that this data will be constantly updated and pinged so we are not too afraid of it disappearing, however if your neat token metadata gets loaded up to IPFS and the internet forgets about it, then a year later you want to see it again, IPFS might decide it's not needed anymore and node will no longer host it. To solve this, you can hire a pinning service like [Pinata](https://pinata.cloud/), but then we are back to relying on a centralized service to keep it up. This is hard for Mintbase to do not only because of the centralized aspect, but because we have to trust a new company with a new technology to figure it all out and just hope they dd their job correctly.
+
+It's sooooooooo slowww. If you're not pinging a file often you'll end up seeing the spinning wheel of death for possibly several minutes until the file has been found. This make apps frustrating to use. Why don't we just host our own node? Well this doesn't solve the data forever problem or centralization. If Mintbase goes under then you'll just have to trust the the token base url is pointing to a node that will keep forever and the pinning service is still alive, or that we'll properly update our smart contracts base uri to point to another open terribly slow gateway.
+
+In the end, we are open to it, but for now we are focused on token management and that in itself is a pretty heavy task.
+
