@@ -9,6 +9,7 @@ type Store @entity {
   owner: Bytes!
   name: String!
   symbol: String!
+  timestamp: String!
   totalSupply: BigInt!
   burned: Boolean!
   factory: Mintbase! @derivedFrom(field: "stores")
@@ -19,6 +20,7 @@ type Store @entity {
 type Thing @entity {
   id: ID!
   minter: Bytes!
+  timestamp: String!
   factory: Store! @derivedFrom(field: "things")
   burned: Boolean!
   forSale: Boolean!

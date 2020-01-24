@@ -8,7 +8,11 @@ Mintbase enables users to mint and sell NFTs
 ## Installation
 
 ```
+git clone git@github.com:Mintbase/graph-mint-factory.git
 npm i
+npm install -g @graphprotocol/graph-cli
+graph auth https://api.thegraph.com/deploy/ <ACCESS_TOKEN>
+
 ```
 
 ## Deploy [Rinkeby](https://thegraph.com/explorer/subgraph/nategeier/mint-factory)

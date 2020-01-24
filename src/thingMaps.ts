@@ -115,6 +115,7 @@ export function handleMinted(event: Minted): void {
   thing.metaId = event.params.metaId;
   thing.burned = false;
   thing.forSale = true;
+  thing.timestamp = event.block.timestamp.toString();
 
   let tokenId = event.params.id.toString()
 
@@ -237,14 +238,17 @@ export function handleTransfer(event: Transfer): void {
 
   let token = Token.load(uniqueId)
   if (token == null) {
-    token = new Token(uniqueId)
+
+    // Contract is probably destroyed so do nothing
+  } else {
+    token.state = '3'
+
+
+    token.resolveOwner = event.params.to.toHex()
+
+    token.save()
   }
-  token.state = '3'
 
-
-  token.resolveOwner = event.params.to.toHex()
-
-  token.save()
 
 }
 

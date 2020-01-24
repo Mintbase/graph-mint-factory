@@ -18,6 +18,7 @@ export function handleStoreLaunch(event: StoreLaunch): void {
   }
 
   store.owner = event.transaction.from
+  store.timestamp = event.block.timestamp.toString();
   store.name = event.params.name.toString()
   store.symbol = event.params.symbol.toString()
   store.totalSupply = BigInt.fromI32(0)
