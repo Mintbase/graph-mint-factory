@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # [Mintbase Subgraph](https://mintbase.io) &middot; 
 
 Mintbase enables users to mint and sell NFTs
@@ -33,20 +32,3 @@ npm run deploy:mainnet
 You can find the Mintbase documentation [on the website](https://docs.mintbase.io).  
 
 Check out the [Getting Started](https://reactjs.org/docs/getting-started.html) page for a quick overview.
-=======
----
-description: >-
-  Welcome, we hope these docs are useful. We are a massive team of two and are
-  making our system better daily. Please feel free to reach out on telegram
-  anytime for quick responses.
----
-
-# Overview
-
-Mintbase is a global platform that allows anyone, including those with less technical backgrounds, to create their own digital assets verified on multiple blockchains. Mintbase provides creators \(minters\) with various creative allocation and redemption mechanisms for their customers.
-
-{% embed url="https://www.youtube.com/watch?v=j-f9bs86t\_U" %}
-
-
-
->>>>>>> 21527651484d21e54d3987c38bb74eb41e4439c2
