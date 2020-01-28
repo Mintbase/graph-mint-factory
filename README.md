@@ -34,5 +34,3 @@ npm run deploy:mainnet
 ## Documentation
 
 You can find the Mintbase documentation [on the website](https://docs.mintbase.io).  
-
-Check out the [Getting Started](https://reactjs.org/docs/getting-started.html) page for a quick overview.
