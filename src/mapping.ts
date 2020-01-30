@@ -1,9 +1,11 @@
 
 import { BigInt, BigDecimal } from "@graphprotocol/graph-ts"
-import { Contract, StoreLaunch } from "../generated/Contract/Contract"
+import { StoreLaunch } from "../generated/Contract/Contract"
 import { Mintbase, Store, User } from "../generated/schema"
 import { StoreContract } from "../generated/templates"
-
+import {
+  Thing as Contract,
+} from "../generated/Contract/Thing"
 export function handleStoreLaunch(event: StoreLaunch): void {
 
   let factory = Mintbase.load('1')
@@ -22,11 +24,15 @@ export function handleStoreLaunch(event: StoreLaunch): void {
     store = new Store(event.params.store.toHex())
   }
 
-  store.owner = event.transaction.from
+  // store.owner = event.transaction.from
+
+  let contract = Contract.bind(event.params.store)
+
+  store.owner = contract.maker()
   store.name = event.params.name.toString()
   store.symbol = event.params.symbol.toString()
   store.totalSupply = BigInt.fromI32(0)
-  store.resolveUser = event.transaction.from.toHex();
+  store.resolveUser = contract.maker().toHex();
   store.timestamp = event.block.timestamp.toString();
 
 
@@ -35,9 +41,9 @@ export function handleStoreLaunch(event: StoreLaunch): void {
   store.burned = false;
 
 
-  let user = User.load(event.transaction.from.toHex())
+  let user = User.load(contract.maker().toHex())
   if (!user) {
-    user = new User(event.transaction.from.toHex())
+    user = new User(contract.maker().toHex())
   }
 
   user.save()
@@ -47,5 +53,6 @@ export function handleStoreLaunch(event: StoreLaunch): void {
 
   factory.save()
   store.save()
+
 
 }

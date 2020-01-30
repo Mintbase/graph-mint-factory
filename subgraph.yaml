@@ -18,6 +18,8 @@ dataSources:
       abis:
         - name: Contract
           file: ./abis/Contract.json
+        - name: Thing
+          file: ./abis/Thing.json
       eventHandlers:
         - event: StoreLaunch(indexed address,string,string)
           handler: handleStoreLaunch

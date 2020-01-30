@@ -24,6 +24,7 @@ type Store @entity {
 type Thing @entity {
   id: ID!
   minter: Bytes!
+  timestamp: String!
   factory: Store! @derivedFrom(field: "things")
   burned: Boolean!
   forSale: Boolean!

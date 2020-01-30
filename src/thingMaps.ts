@@ -122,10 +122,11 @@ export function handleMinted(event: Minted): void {
 
   store.totalSupply = contract.totalSupply()
 
-  thing.minter = event.transaction.from;
+  thing.minter = contract.maker();
   thing.metaId = event.params.metaId;
   thing.burned = false;
   thing.forSale = true;
+  thing.timestamp = event.block.timestamp.toString();
 
 
   let tokenId = event.params.id.toString()
@@ -144,7 +145,7 @@ export function handleMinted(event: Minted): void {
   token.tokenId = tokenId
   token.resolvedThing = event.params.metaId
   token.store = event.address.toHex()
-  token.resolveOwner = event.transaction.from.toHex()
+  token.resolveOwner = contract.maker().toHex()
   token.burned = false
 
 
@@ -274,6 +275,13 @@ export function handleTransfer(event: Transfer): void {
   if (token == null) {
     return
   }
+
+  let user = User.load(event.params.to.toHex())
+  if (!user) {
+    user = new User(event.params.to.toHex())
+  }
+  user.save()
+
   token.state = '3'
 
 
