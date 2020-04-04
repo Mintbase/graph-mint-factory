@@ -6,7 +6,7 @@ dataSources:
     name: Contract
     network: {{network}}
     source:
-      address: '{{address}}'
+      address: "{{address}}"
       abi: Contract
       startBlock: {{startBlock}}
     mapping:
@@ -58,3 +58,5 @@ templates:
           handler: handleBought
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll

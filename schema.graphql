@@ -5,7 +5,7 @@ type Mintbase @entity {
   tokenCount: BigInt!
   transferCount: BigInt!
   boughtCount: BigInt!
-  valueCount:BigDecimal!
+  valueCount: BigDecimal!
 }
 
 type Store @entity {
@@ -16,6 +16,7 @@ type Store @entity {
   totalSupply: BigInt!
   timestamp: String!
   burned: Boolean!
+  resolveApprovers: [User!]!
   factory: Mintbase! @derivedFrom(field: "stores")
   things: [Thing!]! @derivedFrom(field: "resolveStore")
   resolveUser: User!
@@ -49,4 +50,5 @@ type User @entity {
   id: ID!
   stores: [Store!]! @derivedFrom(field: "resolveUser")
   tokens: [Token!]! @derivedFrom(field: "resolveOwner")
+  approvers: [Store!]! @derivedFrom(field: "resolveApprovers")
 }
